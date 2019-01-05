@@ -35,6 +35,11 @@ public class CategoriaResource {
 		return ResponseEntity.ok().body(obj);
 	}
 	
+	/**
+	 * Incluindo a anotação @Valid, vai fazer a consistência de dados conforme anotações no objeto, no caso o CategoriaDTO
+	 * @param objDTO
+	 * @return
+	 */
 	@RequestMapping(method=RequestMethod.POST)
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {
 		Categoria obj = service.fromDTO(objDTO);
