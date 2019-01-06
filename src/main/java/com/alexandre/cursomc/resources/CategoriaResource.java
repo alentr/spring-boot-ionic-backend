@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,14 +22,21 @@ import com.alexandre.cursomc.domain.Categoria;
 import com.alexandre.cursomc.dto.CategoriaDTO;
 import com.alexandre.cursomc.services.CategoriaService;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+
 @RestController
 @RequestMapping(value="/categorias")
+@Api(value="API REST categorias")
+//Informe que qualquer domínio pode acessar a API
+@CrossOrigin(origins="*")
 public class CategoriaResource {
 
 	@Autowired
 	private CategoriaService service;
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
+	@ApiOperation(value="Retorna uma categoria.")
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
 		Categoria obj = service.find(id);
 		
@@ -41,6 +49,7 @@ public class CategoriaResource {
 	 * @return
 	 */
 	@RequestMapping(method=RequestMethod.POST)
+	@ApiOperation(value="Cadastra uma categoria")
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {
 		Categoria obj = service.fromDTO(objDTO);
 		obj = service.insert(obj);
@@ -51,6 +60,7 @@ public class CategoriaResource {
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
+	@ApiOperation(value="Atualzia uma categoria")
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDTO, @PathVariable Integer id) {
 		Categoria obj = service.fromDTO(objDTO);
 		obj.setId(id);
@@ -60,6 +70,7 @@ public class CategoriaResource {
 	}
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
+	@ApiOperation(value="Exclui uma categoria")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
 		service.delete(id);
 		
@@ -67,6 +78,7 @@ public class CategoriaResource {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET)
+	@ApiOperation(value="Retorna todas as categorias")
 	public ResponseEntity<List<CategoriaDTO>> findAll() {
 		List<Categoria> list = service.findAll();
 		List<CategoriaDTO> listDTO = list.stream()
@@ -84,6 +96,7 @@ public class CategoriaResource {
 	 * @return
 	 */
 	@RequestMapping(value="/page", method=RequestMethod.GET)
+	@ApiOperation(value="Retorna todas as categorias paginadas")
 	public ResponseEntity<Page<CategoriaDTO>> findPage(
 			@RequestParam(value="page", defaultValue="0") Integer page,
 			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
