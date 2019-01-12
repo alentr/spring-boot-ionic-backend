@@ -41,6 +41,10 @@ public class ClienteService {
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
 	
+	public Cliente findByEmail(String email) {
+		return repo.findByEmail(email);
+	}
+	
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
 		obj = repo.save(obj);
