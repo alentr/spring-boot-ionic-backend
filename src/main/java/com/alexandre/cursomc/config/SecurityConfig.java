@@ -97,7 +97,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	}
 	
 	/**
-	 * Utilizado para criptograr a senha
+	 * Utilizado para criptografar a senha
 	 * @return
 	 */
 	@Bean

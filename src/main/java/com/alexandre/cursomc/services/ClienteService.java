@@ -29,7 +29,7 @@ public class ClienteService {
 	private ClienteRepository repo;
 	
 	@Autowired
-	private EnderecoRepository endetecoRepository;
+	private EnderecoRepository enderecoRepository;
 	
 	@Autowired
 	private BCryptPasswordEncoder pe;
@@ -48,7 +48,7 @@ public class ClienteService {
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
 		obj = repo.save(obj);
-		endetecoRepository.saveAll(obj.getEnderecos());
+		enderecoRepository.saveAll(obj.getEnderecos());
 		return obj;
 	}
 	
