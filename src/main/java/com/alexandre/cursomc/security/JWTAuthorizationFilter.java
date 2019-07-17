@@ -20,21 +20,22 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 	
 	private UserDetailsService userDetailsService;
 	
-	public JWTAuthorizationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil,UserDetailsService userDetailsService) {
+	public JWTAuthorizationFilter(AuthenticationManager authenticationManager, JWTUtil jwtUtil, UserDetailsService userDetailsService) {
 		super(authenticationManager);
 		this.jwtUtil = jwtUtil;
 		this.userDetailsService = userDetailsService;
 	}
 	
 	@Override
-	protected void doFilterInternal(HttpServletRequest request,
-									HttpServletResponse response, 
-									FilterChain chain) throws IOException, ServletException {
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws IOException, ServletException {
+		/**
+		 * Busca o token de autenticação do Header da requisição
+		 */
+		String token = request.getHeader("Authorization");
 		
-		String header = request.getHeader("Authorization");
-		
-		if (header != null && header.startsWith("Bearer ")) {
-			UsernamePasswordAuthenticationToken auth = getAuthentication(header.substring(7));
+		if (token != null && token.startsWith("Bearer ")) {
+			UsernamePasswordAuthenticationToken auth = getAuthentication(token.substring(7));
+			
 			if (auth != null) {
 				SecurityContextHolder.getContext().setAuthentication(auth);
 			}
@@ -43,10 +44,15 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 		chain.doFilter(request, response);
 	}
 
+	/**
+	 * Valida a autenticação
+	 * @param token
+	 * @return
+	 */
 	private UsernamePasswordAuthenticationToken getAuthentication(String token) {
 		if (jwtUtil.tokenValido(token)) {
 			String userName = jwtUtil.getUserName(token);
-			UserDetails user =  userDetailsService.loadUserByUsername(userName);
+			UserDetails user = userDetailsService.loadUserByUsername(userName);
 			
 			return new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 		}

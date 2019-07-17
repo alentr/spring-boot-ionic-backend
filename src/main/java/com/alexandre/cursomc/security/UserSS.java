@@ -10,6 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.alexandre.cursomc.domain.enums.Perfil;
 
+/**
+ * Classe que atende os requisitos do SpringSecurity
+ * @author Telles
+ *
+ */
 public class UserSS implements UserDetails {
 	private static final long serialVersionUID = 1L;
 
