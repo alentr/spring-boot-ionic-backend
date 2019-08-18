@@ -4,9 +4,13 @@ import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alexandre.cursomc.domain.Cliente;
 import com.alexandre.cursomc.domain.ItemPedido;
 import com.alexandre.cursomc.domain.PagamentoComBoleto;
 import com.alexandre.cursomc.domain.Pedido;
@@ -14,13 +18,15 @@ import com.alexandre.cursomc.domain.enums.EstadoPagamento;
 import com.alexandre.cursomc.repositories.ItemPedidoRepository;
 import com.alexandre.cursomc.repositories.PagamentoRepository;
 import com.alexandre.cursomc.repositories.PedidoRepository;
+import com.alexandre.cursomc.security.UserSS;
+import com.alexandre.cursomc.services.exceptions.AuthorizationException;
 import com.alexandre.cursomc.services.exceptions.ObjectNotFoundException;
 
 @Service
 public class PedidoService {
 
 	@Autowired
-	private PedidoRepository repo;
+	private PedidoRepository pedidoRepository;
 	
 	@Autowired
 	private BoletoService boletoService;
@@ -41,7 +47,7 @@ public class PedidoService {
 	private EmailService emailService;
 	
 	public Pedido find(Integer id) {
-		Optional<Pedido> obj = repo.findById(id);
+		Optional<Pedido> obj = pedidoRepository.findById(id);
 		
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Pedido.class.getName()));
@@ -58,7 +64,7 @@ public class PedidoService {
 			PagamentoComBoleto pagto = (PagamentoComBoleto) obj.getPagamento();
 			boletoService.preencherPagamentoComBoleto(pagto, obj.getInstante());
 		}
-		obj = repo.save(obj);
+		obj = pedidoRepository.save(obj);
 		pagamentoRepository.save(obj.getPagamento());
 		
 		for (ItemPedido ip : obj.getItens()) {
@@ -73,5 +79,18 @@ public class PedidoService {
 		emailService.sendOrderConfirmationHtmlEmail(obj);
 		
 		return obj;
+	}
+	
+	public Page<Pedido> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
+		UserSS user = UserService.authenticated();
+		if (user == null) {
+			throw new AuthorizationException("Acesso negado.");
+		}
+		
+		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
+		
+		Cliente cliente = clienteService.find(user.getId());
+		
+		return pedidoRepository.findByCliente(cliente, pageRequest);
 	}
 }
