@@ -8,6 +8,11 @@ import com.alexandre.cursomc.domain.PagamentoComBoleto;
 import com.alexandre.cursomc.domain.PagamentoComCartao;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+/**
+ * Definições do Jackson (padrão)
+ * @author Telles
+ *
+ */
 @Configuration
 public class JacksonConfig {
 	// https://stackoverflow.com/questions/41452598/overcome-can-not-construct-instance-ofinterfaceclass-without-hinting-the-pare

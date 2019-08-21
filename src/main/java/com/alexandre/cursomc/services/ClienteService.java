@@ -29,13 +29,13 @@ import com.alexandre.cursomc.services.exceptions.ObjectNotFoundException;
 public class ClienteService {
 
 	@Autowired
-	private ClienteRepository repo;
+	private ClienteRepository clienteRepository;
 	
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 	
 	@Autowired
-	private BCryptPasswordEncoder pe;
+	private BCryptPasswordEncoder passwordEncoder;
 	
 	public Cliente find(Integer id) {
 		
@@ -44,19 +44,19 @@ public class ClienteService {
 			throw new AuthorizationException("Acesso negado.");
 		}
 		
-		Optional<Cliente> obj = repo.findById(id);
+		Optional<Cliente> obj = clienteRepository.findById(id);
 		
 		return obj.orElseThrow(() -> new ObjectNotFoundException(
 				"Objeto não encontrado! Id: " + id + ", Tipo: " + Cliente.class.getName()));
 	}
 	
 	public Cliente findByEmail(String email) {
-		return repo.findByEmail(email);
+		return clienteRepository.findByEmail(email);
 	}
 	
 	public Cliente insert(Cliente obj) {
 		obj.setId(null);
-		obj = repo.save(obj);
+		obj = clienteRepository.save(obj);
 		enderecoRepository.saveAll(obj.getEnderecos());
 		return obj;
 	}
@@ -66,14 +66,14 @@ public class ClienteService {
 		
 		updateData(newObj, obj);
 		
-		return repo.save(newObj);
+		return clienteRepository.save(newObj);
 	}
 
 	public void delete (Integer id) {
 		find(id);
 		
 		try {
-			repo.deleteById(id);
+			clienteRepository.deleteById(id);
 		}
 		catch (DataIntegrityViolationException e) {
 			throw new DataIntegrityException("Não é possível exluir porque há pedidos relacionados");
@@ -81,13 +81,13 @@ public class ClienteService {
 	}
 	
 	public List<Cliente> findAll() {
-		return repo.findAll();
+		return clienteRepository.findAll();
 	}
 	
 	public Page<Cliente> findPage(Integer page, Integer linesPerPage, String orderBy, String direction) {
 		PageRequest pageRequest = PageRequest.of(page, linesPerPage, Direction.valueOf(direction), orderBy);
 		
-		return repo.findAll(pageRequest);
+		return clienteRepository.findAll(pageRequest);
 	}
 	
 	public Cliente fromDTO(ClienteDTO objDTO) {
@@ -96,7 +96,7 @@ public class ClienteService {
 	
 	public Cliente fromDTO(ClienteNewDTO objDto) {
 		Cliente cli = new Cliente(null, objDto.getNome(), objDto.getEmail(), objDto.getCpfOuCnpj(),
-				TipoCliente.toEnum(objDto.getTipo()), pe.encode(objDto.getSenha()));
+				TipoCliente.toEnum(objDto.getTipo()), passwordEncoder.encode(objDto.getSenha()));
 		
 		Cidade cid = new Cidade(objDto.getCidadeId(), null, null);
 		

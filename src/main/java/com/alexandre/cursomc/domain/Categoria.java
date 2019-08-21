@@ -10,6 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+/**
+ * Categoria de um produto
+ * @see Produto.java
+ * @author Telles
+ *
+ */
 @Entity
 public class Categoria implements Serializable {
 	private static final long serialVersionUID = 1L;

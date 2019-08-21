@@ -1,5 +1,10 @@
 package com.alexandre.cursomc.domain.enums;
 
+/**
+ * Perfil do usuário
+ * @author Telles
+ *
+ */
 public enum Perfil {
 
 	ADMIN(1, "ROLE_ADMIN"),

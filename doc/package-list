@@ -1,0 +1,14 @@
+com.alexandre.cursomc
+com.alexandre.cursomc.config
+com.alexandre.cursomc.domain
+com.alexandre.cursomc.domain.enums
+com.alexandre.cursomc.dto
+com.alexandre.cursomc.repositories
+com.alexandre.cursomc.resources
+com.alexandre.cursomc.resources.exceptions
+com.alexandre.cursomc.resources.utils
+com.alexandre.cursomc.security
+com.alexandre.cursomc.services
+com.alexandre.cursomc.services.exceptions
+com.alexandre.cursomc.services.validation
+com.alexandre.cursomc.services.validation.utils

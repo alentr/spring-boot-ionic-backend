@@ -22,7 +22,7 @@ public class ClienteUpdateValidator implements ConstraintValidator<ClienteUpdate
 	private HttpServletRequest request;
 	
 	@Autowired
-	private ClienteRepository repo;
+	private ClienteRepository clienteRepository;
 	
 	@Override
 	public void initialize(ClienteUpdate ann) {
@@ -40,7 +40,7 @@ public class ClienteUpdateValidator implements ConstraintValidator<ClienteUpdate
 		
 		List<FieldMessage> list = new ArrayList<>();
 			
-		Cliente aux = repo.findByEmail(objDto.getEmail());
+		Cliente aux = clienteRepository.findByEmail(objDto.getEmail());
 		if (aux != null && !aux.getId().equals(uriId))
 			list.add(new FieldMessage("email", String.format("E-mail já está em usa pelo cliente. Id: %s, Nome: %s, CpfOuCnpj: %s", aux.getId(), aux.getNome(), aux.getCpfOuCnpj())));
 		

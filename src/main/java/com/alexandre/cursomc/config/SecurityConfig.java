@@ -23,6 +23,11 @@ import com.alexandre.cursomc.security.JWTAuthenticationFilter;
 import com.alexandre.cursomc.security.JWTAuthorizationFilter;
 import com.alexandre.cursomc.security.JWTUtil;
 
+/**
+ * Configurações de acesso do SpringSecurity
+ * @author Telles
+ *
+ */
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)

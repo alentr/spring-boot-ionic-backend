@@ -1,5 +1,10 @@
 package com.alexandre.cursomc.domain.enums;
 
+/**
+ * Estado de pagamento de um pedido
+ * @author Telles
+ *
+ */
 public enum EstadoPagamento {
 
 	PENDENTE(1, "Pendente"),
@@ -22,6 +27,11 @@ public enum EstadoPagamento {
 		return descricao;
 	}
 	
+	/**
+	 * Recebe um código de estado de pagamento e retorna o Enum
+	 * @param cod código de estado de pagamento
+	 * @return
+	 */
 	public static EstadoPagamento toEnum(Integer cod) {
 		if (cod == null)
 			return null;

@@ -14,6 +14,11 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
+/**
+ * Configurações do Swagger
+ * @author Telles
+ *
+ */
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
@@ -23,7 +28,6 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .select()
                 .apis(RequestHandlerSelectors.basePackage("com.alexandre.cursomc"))
-//                .paths(regex("/categorias.*"))
                 .paths(PathSelectors.any())
                 .build()
                 .apiInfo(metaInfo());

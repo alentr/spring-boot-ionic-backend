@@ -50,7 +50,7 @@ public abstract class AbstractEmailService implements EmailService {
 	protected String htmlFromTemplatePedido(Pedido obj) {
 		Context context = new Context();
 		/**
-		 * Informe o nome e quem é o objeto que será processado no HTML
+		 * Informa o nome e quem é o objeto que será processado no HTML
 		 */
 		context.setVariable("pedido", obj);
 		

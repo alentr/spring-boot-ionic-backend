@@ -12,6 +12,11 @@ import com.alexandre.cursomc.services.DBService;
 import com.alexandre.cursomc.services.EmailService;
 import com.alexandre.cursomc.services.SmtpEmailService;
 
+/**
+ * Classe responsável por definições do perfil de desenvolvimento
+ * @author Telles
+ *
+ */
 @Configuration
 @Profile("dev")
 public class DevConfig {

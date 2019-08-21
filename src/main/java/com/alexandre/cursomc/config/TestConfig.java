@@ -11,6 +11,11 @@ import com.alexandre.cursomc.services.DBService;
 import com.alexandre.cursomc.services.EmailService;
 import com.alexandre.cursomc.services.MockEmailService;
 
+/**
+ * Classe responsável por definições do perfil de teste
+ * @author Telles
+ *
+ */
 @Configuration
 @Profile("test")
 public class TestConfig {

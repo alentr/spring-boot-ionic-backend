@@ -1,5 +1,10 @@
 package com.alexandre.cursomc.domain.enums;
 
+/**
+ * Tipos de clientes
+ * @author Telles
+ *
+ */
 public enum TipoCliente {
 
 	PESSOAFISICA(1, "Pesso Física"),

@@ -53,10 +53,10 @@ public class PedidoResource {
 	@RequestMapping(method=RequestMethod.GET)
 	@ApiOperation(value="Retorna todos os pedido paginados")
 	public ResponseEntity<Page<Pedido>> findPage(
-			@RequestParam(value="page", defaultValue="0") Integer page,
-			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
-			@RequestParam(value="orderBy", defaultValue="instante") String orderBy,
-			@RequestParam(value="direction", defaultValue="DESC") String direction) {
+		@RequestParam(value="page", defaultValue="0") Integer page,
+		@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
+		@RequestParam(value="orderBy", defaultValue="instante") String orderBy,
+		@RequestParam(value="direction", defaultValue="DESC") String direction) {
 		
 		Page<Pedido> pedidos = pedidoService.findPage(page, linesPerPage, orderBy, direction);
 		

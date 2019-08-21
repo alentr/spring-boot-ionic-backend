@@ -19,32 +19,34 @@ public class BR {
 	}
 
 	/**
-	 * Valida CPF
+	 * Verifica se CPF é válido
 	 *
-	 * @param ssn
+	 * @param cpf
 	 * @return
 	 */
-	public static boolean isValidCPF(final String ssn) {
-		if ((ssn == null) || (ssn.length() != 11) || ssn.matches(ssn.charAt(0) + "{11}"))
+	public static boolean isValidCPF(final String cpf) {
+		if ((cpf == null) || (cpf.length() != 11) || cpf.matches(cpf.charAt(0) + "{11}"))
 			return false;
 
-		final Integer digit1 = calculate(ssn.substring(0, 9), weightSsn);
-		final Integer digit2 = calculate(ssn.substring(0, 9) + digit1, weightSsn);
-		return ssn.equals(ssn.substring(0, 9) + digit1.toString() + digit2.toString());
+		final Integer digit1 = calculate(cpf.substring(0, 9), weightSsn);
+		final Integer digit2 = calculate(cpf.substring(0, 9) + digit1, weightSsn);
+		
+		return cpf.equals(cpf.substring(0, 9) + digit1.toString() + digit2.toString());
 	}
 
 	/**
-	 * Valida CNPJ
+	 * Verifica se CNPJ é válido
 	 *
-	 * @param tin
+	 * @param cnpj
 	 * @return
 	 */
-	public static boolean isValidCNPJ(final String tin) {
-		if ((tin == null) || (tin.length() != 14) || tin.matches(tin.charAt(0) + "{14}"))
+	public static boolean isValidCNPJ(final String cnpj) {
+		if ((cnpj == null) || (cnpj.length() != 14) || cnpj.matches(cnpj.charAt(0) + "{14}"))
 			return false;
 
-		final Integer digit1 = calculate(tin.substring(0, 12), weightTin);
-		final Integer digit2 = calculate(tin.substring(0, 12) + digit1, weightTin);
-		return tin.equals(tin.substring(0, 12) + digit1.toString() + digit2.toString());
+		final Integer digit1 = calculate(cnpj.substring(0, 12), weightTin);
+		final Integer digit2 = calculate(cnpj.substring(0, 12) + digit1, weightTin);
+		
+		return cnpj.equals(cnpj.substring(0, 12) + digit1.toString() + digit2.toString());
 	}
 }

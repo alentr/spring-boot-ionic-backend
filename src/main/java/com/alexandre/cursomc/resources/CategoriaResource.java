@@ -34,12 +34,12 @@ import io.swagger.annotations.ApiOperation;
 public class CategoriaResource {
 
 	@Autowired
-	private CategoriaService service;
+	private CategoriaService categoriaService;
 	
 	@RequestMapping(value="/{id}", method=RequestMethod.GET)
 	@ApiOperation(value="Retorna uma categoria.")
 	public ResponseEntity<Categoria> find(@PathVariable Integer id) {
-		Categoria obj = service.find(id);
+		Categoria obj = categoriaService.find(id);
 		
 		return ResponseEntity.ok().body(obj);
 	}
@@ -53,9 +53,9 @@ public class CategoriaResource {
 	@RequestMapping(method=RequestMethod.POST)
 	@ApiOperation(value="Cadastra uma categoria")
 	public ResponseEntity<Void> insert(@Valid @RequestBody CategoriaDTO objDTO) {
-		Categoria obj = service.fromDTO(objDTO);
+		Categoria obj = categoriaService.fromDTO(objDTO);
 		
-		obj = service.insert(obj);
+		obj = categoriaService.insert(obj);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(obj.getId()).toUri();
 		
 		return ResponseEntity.created(uri).build();
@@ -65,9 +65,9 @@ public class CategoriaResource {
 	@RequestMapping(value="/{id}", method=RequestMethod.PUT)
 	@ApiOperation(value="Atualzia uma categoria")
 	public ResponseEntity<Void> update(@Valid @RequestBody CategoriaDTO objDTO, @PathVariable Integer id) {
-		Categoria obj = service.fromDTO(objDTO);
+		Categoria obj = categoriaService.fromDTO(objDTO);
 		obj.setId(id);
-		obj = service.update(obj);
+		obj = categoriaService.update(obj);
 		
 		return ResponseEntity.noContent().build();
 	}
@@ -76,7 +76,7 @@ public class CategoriaResource {
 	@RequestMapping(value="/{id}", method=RequestMethod.DELETE)
 	@ApiOperation(value="Exclui uma categoria")
 	public ResponseEntity<Void> delete(@PathVariable Integer id) {
-		service.delete(id);
+		categoriaService.delete(id);
 		
 		return ResponseEntity.noContent().build();
 	}
@@ -84,7 +84,7 @@ public class CategoriaResource {
 	@RequestMapping(method=RequestMethod.GET)
 	@ApiOperation(value="Retorna todas as categorias")
 	public ResponseEntity<List<CategoriaDTO>> findAll() {
-		List<Categoria> list = service.findAll();
+		List<Categoria> list = categoriaService.findAll();
 		List<CategoriaDTO> listDTO = list.stream()
 				.map(obj -> new CategoriaDTO(obj)).collect(Collectors.toList());
 		
@@ -102,11 +102,12 @@ public class CategoriaResource {
 	@RequestMapping(value="/page", method=RequestMethod.GET)
 	@ApiOperation(value="Retorna todas as categorias paginadas")
 	public ResponseEntity<Page<CategoriaDTO>> findPage(
-			@RequestParam(value="page", defaultValue="0") Integer page,
-			@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
-			@RequestParam(value="orderBy", defaultValue="nome") String orderBy,
-			@RequestParam(value="direction", defaultValue="ASC") String direction) {
-		Page<Categoria> list = service.findPage(page, linesPerPage, orderBy, direction);
+		@RequestParam(value="page", defaultValue="0") Integer page,
+		@RequestParam(value="linesPerPage", defaultValue="24") Integer linesPerPage,
+		@RequestParam(value="orderBy", defaultValue="nome") String orderBy,
+		@RequestParam(value="direction", defaultValue="ASC") String direction) {
+		
+		Page<Categoria> list = categoriaService.findPage(page, linesPerPage, orderBy, direction);
 		Page<CategoriaDTO> listDTO = list.map(obj -> new CategoriaDTO(obj));
 		
 		return ResponseEntity.ok().body(listDTO);

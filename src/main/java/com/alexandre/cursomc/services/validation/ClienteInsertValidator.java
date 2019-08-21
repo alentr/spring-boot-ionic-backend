@@ -18,7 +18,7 @@ import com.alexandre.cursomc.services.validation.utils.BR;
 public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert, ClienteNewDTO> {
 	
 	@Autowired
-	private ClienteRepository repo;
+	private ClienteRepository clienteRepository;
 	
 	@Override
 	public void initialize(ClienteInsert ann) {
@@ -35,14 +35,14 @@ public class ClienteInsertValidator implements ConstraintValidator<ClienteInsert
 		if (objDto.getTipo().equals(TipoCliente.PESSOAJURIDICA.getCod()) && !BR.isValidCNPJ(objDto.getCpfOuCnpj()))
 			list.add(new FieldMessage("cpfOuCnpj", "CNPJ inválido"));
 		
-		Cliente aux = repo.findByEmail(objDto.getEmail());
+		Cliente aux = clienteRepository.findByEmail(objDto.getEmail());
 		if (aux != null)
 			list.add(new FieldMessage("email", "E-mail já existente"));
 		
 		for (FieldMessage e : list) {
 			context.disableDefaultConstraintViolation();
 			context.buildConstraintViolationWithTemplate(e.getMessage()).addPropertyNode(e.getFieldName())
-					.addConstraintViolation();
+				.addConstraintViolation();
 		}
 		
 		return list.isEmpty();
